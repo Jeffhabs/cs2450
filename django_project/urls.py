@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 from polls.views import ChoiceCreateView, ChoiceVoteView, QuestionCreateView, QuestionDetailView, QuestionList
 
 urlpatterns = [
@@ -24,4 +26,4 @@ urlpatterns = [
     url(r'^questions/(?P<pk>\d+)/$', QuestionDetailView.as_view(), name="question-detail"),
     url(r'^questions/(?P<pk>\d+)/choice/add/$', ChoiceCreateView.as_view(), name="choice-create"),
     url(r'^choice/(?P<pk>\d+)/vote/(?P<vote>[-\w]+)/$', ChoiceVoteView.as_view(), name="choice-vote"),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

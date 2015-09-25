@@ -1,5 +1,6 @@
 #venv
 venv-django
+django_project/static/
 *.sqlite3
 # Byte-compiled / optimized / DLL files
 __pycache__/
