@@ -11,7 +11,6 @@
             <th>
                 <span class="num-votes">{{ choice.votes }}</span>
                 <a data-href="{% url 'choice-vote' choice.pk 'up' %}" class="vote pull-right btn btn-xs btn-primary">&plus;</a>
-                <a data-href="{% url 'choice-vote' choice.pk 'down' %}" class="vote pull-right btn btn-xs btn-primary" style="margin-right: 5px;">&minus;</a>
             </th>
         </tr>
     {% empty %}
