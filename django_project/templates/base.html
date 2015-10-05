@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <style>
             h1 a:hover {
@@ -11,6 +11,7 @@
                 text-decoration: none;
             }
         </style>
+        <title>{% block title %}{% endblock title %} | MyCoolSurveys</title>
     </head>
     <body>
         <div class="container">

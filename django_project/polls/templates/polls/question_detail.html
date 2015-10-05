@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ object.question_text }}{% endblock title %}
+
 {% block content %}
     <h1>{{ object.question_text }}</h1>
     <table class="table table-striped">
