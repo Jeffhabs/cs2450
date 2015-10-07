@@ -3,7 +3,19 @@
 {% block title %}{{ object.question_text }}{% endblock title %}
 
 {% block content %}
-    <h1>{{ object.question_text }}</h1>
+    <h1 id="question-title">
+      {{ object.question_text }}
+      {% if request.user.is_authenticated and request.user == object.user and object.active %}
+        <a id="question-close" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Close this Question</a>
+      {% endif %}
+    </h1>
+    {% if not object.active %}
+      <div class="alert alert-danger">
+        <p>
+          This question has been closed and cannot be voted on.
+        </p>
+      </div>
+    {% endif %}
     <table class="table table-striped">
     {% for choice in object.choice_set.all %}
         <tr>
@@ -12,17 +24,17 @@
             </th>
             <th>
                 <span class="num-votes">{{ choice.votes }}</span>
-                <a data-href="{% url 'choice-vote' choice.pk 'up' %}" class="vote pull-right btn btn-xs btn-primary">&plus;</a>
+              {% if question.active %}<a data-href="{% url 'choice-vote' choice.pk 'up' %}" class="vote pull-right btn btn-xs btn-primary">&plus;</a>{% endif %}
             </th>
         </tr>
-    {% empty %}
-        <td colspan="2">No choices! <a href="{% url 'choice-create' object.pk %}">Add a choice!</a></td>
     {% endfor %}
+      {% if object.active %}
         <tr>
             <td colspan="2">
-                <a class="btn btn-primary" href="{% url 'choice-create' object.pk %}">Add a choice!</a>
+                <a id="choice-add" class="btn btn-primary" href="{% url 'choice-create' object.pk %}">Add a choice!</a>
             </td>
         </tr>
+      {% endif %}
     </table>
 {% endblock content %}
 
@@ -35,7 +47,20 @@
                 $.get($this.data('href'), function (data) {
                     $this.siblings('.num-votes').text(data);
                 });
-            })
+            });
+            $('#question-close').on('click', function () {
+              $.post(
+                '{% url "question-close" object.pk %}',
+                {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                function () {
+                  $('#question-title').after(
+                    '<div class="alert alert-success">This question has been closed.</div>'
+                  );
+                  $('#question-close').hide();
+                  $('.vote, #choice-add').hide();
+                }
+              );
+            });
         });
     </script>
 {% endblock extra_scripts %}

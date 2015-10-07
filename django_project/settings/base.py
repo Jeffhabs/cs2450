@@ -15,12 +15,14 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+LOGIN_REDIRECT_URL = "/"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'a3_6o0rdc-l4635^%^6nng(4bdd^*ta3lj-3dgt7h+hcz$6p-&'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -39,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_project.polls',
+    'django_project.accounts',
+    'crispy_forms',
 )
 
 MIDDLEWARE_CLASSES = (

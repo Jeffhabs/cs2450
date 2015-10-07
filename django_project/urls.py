@@ -17,13 +17,19 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
-from polls.views import ChoiceCreateView, ChoiceVoteView, QuestionCreateView, QuestionDetailView, QuestionList
+from accounts.views import logout_page, RegisterView
+from polls.views import ChoiceCreateView, ChoiceVoteView, QuestionCloseView, \
+    QuestionCreateView, QuestionDetailView, QuestionList
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', QuestionList.as_view(), name="home"),
+    url(r'^accounts/logout/', logout_page, name="logout"),
+    url(r'^accounts/register/', RegisterView.as_view(), name="registration_register"),
+    url(r'^accounts/', include('registration.backends.simple.urls', namespace="accounts")),
     url(r'^questions/add/$', QuestionCreateView.as_view(), name="question-create"),
     url(r'^questions/(?P<pk>\d+)/$', QuestionDetailView.as_view(), name="question-detail"),
+    url(r'^questions/(?P<pk>\d+)/close/$', QuestionCloseView.as_view(), name="question-close"),
     url(r'^questions/(?P<pk>\d+)/choice/add/$', ChoiceCreateView.as_view(), name="choice-create"),
     url(r'^choice/(?P<pk>\d+)/vote/(?P<vote>[-\w]+)/$', ChoiceVoteView.as_view(), name="choice-vote"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

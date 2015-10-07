@@ -5,6 +5,7 @@
     <head>
         <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <style>
             h1 a:hover {
                 color: rgba(100, 100, 255, 0.5);
@@ -12,17 +13,36 @@
             }
         </style>
         <title>{% block title %}{% endblock title %} | MyCoolSurveys</title>
+        {% block extra_styles %}{% endblock extra_styles %}
     </head>
     <body>
         <div class="container">
             <div class="row">
+                <div class="col-xs-8">
+                  <h1>
+                      <a href="{% url 'home' %}">
+                          <img width="50" src="{% static 'img/smiley.png' %}">
+                          MyCoolSurveys
+                      </a>
+                  </h1>
+                  <p class="small">
+                    <em>MyCoolSurveys is a free QA site where YOU can create and deploy fast and easy surveys.</em>
+                  </p>
+                </div>
+                <div class="col-xs-4">
+                  <div class="text-right">
+                    <p style="margin-top: 20px;">
+                      {% if not request.user.is_authenticated %}
+                        <a class="btn btn-primary" href="{% url 'accounts:auth_login' %}"><i class="fa fa-sign-in"></i> Log In</a>
+                        <a class="btn btn-primary" href="{% url 'accounts:registration_register' %}"><i class="fa fa-sign-in"></i> Sign Up</a>
+                      {% else %}
+                        <span style="padding: 5px">Logged in as {{ request.user.username }}</span>
+                        <a class="btn btn-primary" href="{% url 'accounts:auth_logout' %}"><i class="fa fa-sign-out"></i> Log Out</a>
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
                 <div class="col-xs-12">
-                    <h1>
-                        <a href="{% url 'home' %}">
-                            <img width="50" src="{% static 'img/smiley.png' %}">
-                            MyCoolSurveys
-                        </a>
-                    </h1>
                     {% block content %}{% endblock content %}
                 </div>
             </div>

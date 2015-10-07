@@ -1,9 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
 class Question(models.Model):
+    user = models.ForeignKey(User)
     question_text = models.CharField(max_length=128)
-    pub_date = models.DateTimeField()
+    pub_date = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
 
     def __unicode__(self, *args, **kwargs):
         return self.question_text
