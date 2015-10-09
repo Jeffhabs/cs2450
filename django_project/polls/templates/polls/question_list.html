@@ -11,19 +11,36 @@
 {% endblock extra_styles %}
 
 {% block content %}
+  {% if request.user.is_authenticated %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <a class="btn btn-success" href="{% url 'question-create' %}"><i class="fa fa-plus"></i> Add a Question</a>
+        <a class="btn btn-default" href="{% url 'my-questions' %}"><i class="fa fa-list"></i> My Questions</a>
+      </div>
+    </div>
+  {% endif %}
+  <h1>{{ heading }}</h1>
   {% for question in object_list %}
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4><a href="{% url 'question-detail' question.pk %}">{{ question.question_text }}</a></h4>
+        <h4>
+          {% if question.private %}
+            <a href="{% url 'question-private' question.get_uuid %}">{{ question.question_text }}</a>
+            <span class="small pull-right">
+              <i class="fa fa-key"></i>
+              This is a private question.
+            </span>
+          {% else %}
+            <a href="{% url 'question-detail' question.pk %}">{{ question.question_text }}</a>
+          {% endif %}
+        </h4>
+
       </div>
       <div class="panel-body">
-        Published by {{ question.user }} on {{ question.pub_date }}
+        Published by <a href="{% url 'author-questions' question.user.username %}">{{ question.user }}</a> on {{ question.pub_date }}
       </div>
     </div>
   {% empty %}
     No questions. <a href="{% url 'question-create' %}">Add one!</a>
   {% endfor %}
-  {% if request.user.is_authenticated %}
-    <a class="btn btn-primary" href="{% url 'question-create' %}">Add a Question</a>
-  {% endif %}
 {% endblock content %}

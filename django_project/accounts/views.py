@@ -1,6 +1,5 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-from django.contrib.auth import login as login_func
 from django.contrib.auth.views import login as auth_login
 from django.contrib.auth.views import password_change, password_reset, password_reset_confirm
 from django.core.urlresolvers import reverse
@@ -135,5 +134,9 @@ class RegisterView(RegistrationView):
             email=form.cleaned_data.get('email'),
             password=form.cleaned_data.get('password1')
         )
-        login_func(request, user)
+        authentication = authenticate(
+            username=form.cleaned_data.get('username'),
+            password=form.cleaned_data.get('password1')
+        )
+        login(self.request, authentication)
         return user

@@ -5,10 +5,23 @@
 {% block content %}
     <h1 id="question-title">
       {{ object.question_text }}
-      {% if request.user.is_authenticated and request.user == object.user and object.active %}
-        <a id="question-close" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Close this Question</a>
-      {% endif %}
     </h1>
+    <p>
+      {% if object.active %}
+        <a id="choice-add" class="btn btn-primary btn-xs" href="{% url 'choice-create' object.pk %}">
+          Add a choice!
+        </a>
+      {% endif %}
+      {% if request.user.is_authenticated and request.user == object.user and object.active %}
+        <a id="question-close" class="btn btn-xs btn-danger">
+          <i class="fa fa-times"></i> Close this Question
+        </a>
+        <a id="question-private" class="btn btn-xs btn-info">
+          <i class="fa fa-key"></i> Make this Question
+          {% if object.private %}Public{% else %}Private{% endif %}
+        </a>
+      {% endif %}
+    </p>
     {% if not object.active %}
       <div class="alert alert-danger">
         <p>
@@ -28,13 +41,6 @@
             </th>
         </tr>
     {% endfor %}
-      {% if object.active %}
-        <tr>
-            <td colspan="2">
-                <a id="choice-add" class="btn btn-primary" href="{% url 'choice-create' object.pk %}">Add a choice!</a>
-            </td>
-        </tr>
-      {% endif %}
     </table>
 {% endblock content %}
 
