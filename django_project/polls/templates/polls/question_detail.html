@@ -2,9 +2,24 @@
 
 {% block title %}{{ object.question_text }}{% endblock title %}
 
+{% block extra_styles %}
+<style>
+  h1 .small {
+    position: relative;
+    top: 15px;
+    font-size: 12pt;
+  }
+</style>
+{% endblock extra_styles %}
+
 {% block content %}
     <h1 id="question-title">
       {{ object.question_text }}
+      {% if object.private %}
+        <span class="small pull-right">
+          <i class="fa fa-key"></i> This is a private question.
+        </span>
+      {% endif %}
     </h1>
     <p>
       {% if object.active %}
