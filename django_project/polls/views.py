@@ -141,4 +141,7 @@ class ChoiceCreateView(CreateView):
         return HttpResponse(status=403)
 
     def get_success_url(self, *args, **kwargs):
+        q = self.object.question
+        if q.private:
+            return reverse('question-private', kwargs={'uuid': q.get_uuid})
         return reverse('question-detail', kwargs={'pk': self.kwargs.get('pk')})

@@ -8,8 +8,8 @@
     </h1>
     <p>
       {% if object.active %}
-        <a id="choice-add" class="btn btn-primary btn-xs" href="{% url 'choice-create' object.pk %}">
-          Add a choice!
+        <a id="choice-add" class="btn btn-success btn-xs" href="{% url 'choice-create' object.pk %}">
+          <i class="fa fa-plus"></i> Add a choice!
         </a>
       {% endif %}
       {% if request.user.is_authenticated and request.user == object.user and object.active %}
