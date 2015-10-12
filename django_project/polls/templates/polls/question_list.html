@@ -10,6 +10,12 @@
 </style>
 {% endblock extra_styles %}
 
+{% block pre_content %}
+<script>
+  console.log('debug');
+</script>
+{% endblock pre_content %}
+
 {% block content %}
   {% if request.user.is_authenticated %}
     <div class="panel panel-default">
